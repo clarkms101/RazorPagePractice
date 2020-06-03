@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -21,5 +22,7 @@ namespace RazorPageBlog.Model
         public DateTime CreateDate { get; set; }
         
         public string Tags { get; set; }
+
+        public List<string> TagList { get; set; }
     }
 }

@@ -1,11 +1,15 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using RazorPageBlog.Data;
 using RazorPageBlog.Model;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace RazorPageBlog.Pages.Admin
@@ -26,9 +30,17 @@ namespace RazorPageBlog.Pages.Admin
         [Required]
         public IFormFile CoverPhoto { get; set; }
 
-        public void OnGet()
-        {
+        public List<SelectListItem> TagSelectItems { get; set; }
 
+        public async Task<IActionResult> OnGetAsync()
+        {
+            TagSelectItems = await _context.TagCloud.Select(s => new SelectListItem()
+            {
+                Value = s.Name,
+                Text = s.Name
+            }).ToListAsync();
+
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -52,7 +64,7 @@ namespace RazorPageBlog.Pages.Admin
             {
                 Id = Guid.NewGuid(),
                 Body = ArticleForPage.Body,
-                Tags = ArticleForPage.Tags,
+                Tags = string.Join(",", ArticleForPage.TagList),
                 Title = ArticleForPage.Title,
                 CoverPhoto = path,
                 CreateDate = ArticleForPage.CreateDate

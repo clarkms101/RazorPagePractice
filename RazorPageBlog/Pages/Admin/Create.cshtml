@@ -33,12 +33,12 @@
             </div>
             <div class="form-group col-md-4">
                 <label asp-for="ArticleForPage.CreateDate" class="control-label"></label>
-                <input asp-for="ArticleForPage.CreateDate" type="text" class="form-control">
+                <input asp-for="ArticleForPage.CreateDate" type="date" class="form-control">
                 <span asp-validation-for="ArticleForPage.CreateDate" class="text-danger"></span>
             </div>
             <div class="form-group col-md-4">
                 <label asp-for="ArticleForPage.Tags" class="control-label"></label>
-                <input asp-for="ArticleForPage.Tags" type="text" class="form-control">
+                <select asp-for="ArticleForPage.TagList" asp-items="Model.TagSelectItems" class="form-control" multiple="multiple"></select>
             </div>
             <div class="form-group col-md-4">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -50,3 +50,21 @@
 <div>
     <a asp-page="Index">Back to List</a>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("Shared/Plugins/_ValidationScriptsPartial");
+        await Html.RenderPartialAsync("Shared/Plugins/_Select2Partial");
+        await Html.RenderPartialAsync("Shared/Plugins/_CKEditorPartial");
+    }
+
+    <script>
+        $('#ArticleForPage_TagList').select2();
+
+        ClassicEditor
+            .create( document.querySelector( '#ArticleForPage_Body' ) )
+            .catch( error => {
+                console.error( error );
+            } );
+    </script>
+}
