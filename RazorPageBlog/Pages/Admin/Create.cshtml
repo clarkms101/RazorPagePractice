@@ -7,3 +7,46 @@
 
 <h1>Create</h1>
 
+<div class="alert alert-info">
+    請注意檔案上傳的相關設定
+</div>
+<h4>Articles</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group col-md-8">
+                <label asp-for="ArticleForPage.Title" class="control-label"></label>
+                <input asp-for="ArticleForPage.Title" class="form-control" />
+                <span asp-validation-for="ArticleForPage.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-8">
+                <label asp-for="ArticleForPage.Body" class="control-label"></label>
+                <textarea asp-for="ArticleForPage.Body" class="form-control"></textarea>
+                <span asp-validation-for="ArticleForPage.Body" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-4">
+                <label asp-for="CoverPhoto" class="control-label"></label>
+                <input asp-for="CoverPhoto" class="form-control" type="file" />
+                <span asp-validation-for="CoverPhoto" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-4">
+                <label asp-for="ArticleForPage.CreateDate" class="control-label"></label>
+                <input asp-for="ArticleForPage.CreateDate" type="text" class="form-control">
+                <span asp-validation-for="ArticleForPage.CreateDate" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-4">
+                <label asp-for="ArticleForPage.Tags" class="control-label"></label>
+                <input asp-for="ArticleForPage.Tags" type="text" class="form-control">
+            </div>
+            <div class="form-group col-md-4">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
