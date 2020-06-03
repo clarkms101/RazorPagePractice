@@ -23,7 +23,8 @@
                 <p class="card-text">@Html.Raw(item.Body)</p>
                 
                 @* Tags *@
-                <partial name="_tag" for="@item.Tags"/>
+                @*<partial name="_tag" for="@item.Tags"/>*@
+                <tags-helper>@item.Tags</tags-helper>
             </div>
             <div class="card-footer text-muted">
                 Posted on @item.CreateDate.ToString("yyyy-MM-dd") by me
