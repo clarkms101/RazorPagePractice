@@ -21,7 +21,9 @@
 
                 @* Article Content *@
                 <p class="card-text">@Html.Raw(item.Body)</p>
-
+                
+                @* Tags *@
+                <partial name="_tag" for="@item.Tags"/>
             </div>
             <div class="card-footer text-muted">
                 Posted on @item.CreateDate.ToString("yyyy-MM-dd") by me

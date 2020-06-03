@@ -1,0 +1,13 @@
+﻿@model string
+@if (Model != null)
+{
+    <ul>
+        @foreach (var item in Model.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+        {
+            <li class="d-inline p-1">
+                @* page: index頁面 , handler: page對應的方法 ex: tag => OnGetTag*@
+                <a asp-page="index" asp-page-handler="tag" asp-route-tag="@item" class="btn btn-dark">@item</a>
+            </li>
+        }
+    </ul>
+}

@@ -37,5 +37,25 @@ namespace RazorPageBlog.Pages
                 Tags = s.Tags
             }).ToList();
         }
+
+        public void OnGetTag(string tag)
+        {
+            var query = _context.Articles.AsQueryable();
+            if (string.IsNullOrWhiteSpace(tag) == false)
+            {
+                query = query.Where(d => d.Tags.Contains(tag));
+            }
+
+            Articles = query
+                .Select(d => new ArticleForPage
+                {
+                    Id = d.Id,
+                    CoverPhoto = d.CoverPhoto,
+                    Title = d.Title,
+                    Body = d.Body.Substring(0, _articleBodyLength),
+                    CreateDate = d.CreateDate,
+                    Tags = d.Tags
+                }).ToList();
+        }
     }
 }
