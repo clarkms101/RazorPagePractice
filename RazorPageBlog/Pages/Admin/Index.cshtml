@@ -1,4 +1,7 @@
 ﻿@page
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using RazorPageBlog.Helper
 @model RazorPageBlog.Pages.Admin.IndexModel
 @{
     ViewData["Title"] = "Index";
@@ -6,4 +9,65 @@
 }
 
 <h1>Index</h1>
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
 
+<form method="get" asp-page="index">
+    <div class="input-group col-md-12">
+        <input type="text" name="q" class="form-control col-md-8" placeholder="Search Article Title...">
+        <span class="input-group-btn col-md-4">
+            <button class="btn btn-secondary">Go!</button>
+        </span>
+    </div>
+</form>
+<br>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Articles.First().Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Articles.First().CoverPhoto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Articles.First().CreateDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Articles.First().Tags)
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.Articles)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                <img src="@Html.DisplayFor(modelItem => item.CoverPhoto)" width="120" alt="@Html.DisplayTextFor(modelItem => item.Title)" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreateDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tags)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<!-- Pagination -->
+@Html.PagedListPager((IPagedList) Model.Articles,
+    page => Url.Page("index", new {p = page}),
+    PagingOptionsHelper.FrontEnd)
+<!-- Pagination -->
