@@ -30,9 +30,42 @@
         </nav>
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        <div class="row">
+            <div class="col-md-8">
+                @RenderBody()
+            </div>
+            <div class="col-md-4">
+                
+                @*Search*@
+                <div class="card my-4">
+                    <h5 class="card-header">Search</h5>
+                    <div class="card-body">
+                        <form method="get">
+                            <div class="input-group">
+                                <input type="text" name="q" class="form-control" placeholder="Search for...">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-secondary">Go!</button>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                @*Tags*@
+                <div class="card my-4">
+                    <h5 class="card-header">Tag Cloud</h5>
+                    <div class="card-body">
+                        <ul class="list-unstyled mb-0">
+                            <li class="d-inline">
+                                <a href="#">test</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
     </div>
 
     <footer class="border-top footer text-muted">
