@@ -1,4 +1,7 @@
 ﻿@page
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using RazorPageBlog.Helper
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
@@ -31,5 +34,10 @@
             </div>
         </div>
     }
-
+    
+    <!-- Pagination -->
+    @Html.PagedListPager((IPagedList) Model.Articles,
+        page => Url.Page("index", new {p = page}),
+        PagingOptionsHelper.FrontEnd)
+    <!-- Pagination -->
 </div>

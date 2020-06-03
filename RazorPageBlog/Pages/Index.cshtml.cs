@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using RazorPageBlog.Data;
 using RazorPageBlog.Model;
+using X.PagedList;
 
 namespace RazorPageBlog.Pages
 {
@@ -15,6 +16,7 @@ namespace RazorPageBlog.Pages
         private readonly RazorPageBlogDbContext _context;
         private readonly ILogger<IndexModel> _logger;
         private readonly int _articleBodyLength;
+        private readonly int _pageSize;
 
         public IEnumerable<ArticleForPage> Articles { get; private set; }
 
@@ -23,10 +25,12 @@ namespace RazorPageBlog.Pages
             _logger = logger;
             _context = context;
             _articleBodyLength = 200;
+            _pageSize = 5;
         }
 
-        public void OnGet(string q)
+        public void OnGet(string q, int? p)
         {
+            var pageIndex = PageIndex(p);
             var query = _context.Articles.AsQueryable();
             if (string.IsNullOrWhiteSpace(q) == false)
             {
@@ -41,11 +45,13 @@ namespace RazorPageBlog.Pages
                 Body = s.Body.Substring(0, _articleBodyLength),
                 CreateDate = s.CreateDate,
                 Tags = s.Tags
-            }).ToList();
+            }).ToPagedList(pageIndex, _pageSize);
         }
 
-        public void OnGetTag(string tag)
+        public void OnGetTag(string tag, int? p)
         {
+            var pageIndex = PageIndex(p);
+
             var query = _context.Articles.AsQueryable();
             if (string.IsNullOrWhiteSpace(tag) == false)
             {
@@ -61,7 +67,13 @@ namespace RazorPageBlog.Pages
                     Body = d.Body.Substring(0, _articleBodyLength),
                     CreateDate = d.CreateDate,
                     Tags = d.Tags
-                }).ToList();
+                }).ToPagedList(pageIndex, _pageSize);
+        }
+
+        private static int PageIndex(int? p)
+        {
+            var pageIndex = p.HasValue ? p.Value < 1 ? 1 : p.Value : 1;
+            return pageIndex;
         }
     }
 }
