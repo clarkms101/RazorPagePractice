@@ -25,9 +25,15 @@ namespace RazorPageBlog.Pages
             _articleBodyLength = 200;
         }
 
-        public void OnGet()
+        public void OnGet(string q)
         {
-            Articles = _context.Articles.Select(s => new ArticleForPage()
+            var query = _context.Articles.AsQueryable();
+            if (string.IsNullOrWhiteSpace(q) == false)
+            {
+                query = query.Where(d => d.Title.Contains(q));
+            }
+
+            Articles = query.Select(s => new ArticleForPage()
             {
                 Id = s.Id,
                 CoverPhoto = s.CoverPhoto,
