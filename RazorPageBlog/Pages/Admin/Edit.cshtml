@@ -7,3 +7,67 @@
 
 <h1>Edit</h1>
 
+<h4>Articles</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ArticleForPage.Id" />
+            <div class="form-group col-md-8">
+                <label asp-for="ArticleForPage.Title" class="control-label"></label>
+                <input asp-for="ArticleForPage.Title" class="form-control" />
+                <span asp-validation-for="ArticleForPage.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-8">
+                <label asp-for="ArticleForPage.Body" class="control-label"></label>
+                <textarea asp-for="ArticleForPage.Body" class="form-control"></textarea>
+                <span asp-validation-for="ArticleForPage.Body" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-4">
+                <label asp-for="CoverPhoto" class="control-label"></label>
+                <br>
+                <img src="@Html.DisplayFor(modelItem => Model.ArticleForPage.CoverPhoto)"
+                     class="img-thumbnail articleCoverPhoto"
+                     alt="@Html.DisplayTextFor(modelItem => Model.ArticleForPage.Title)" />
+                <br>
+                <input asp-for="CoverPhoto" class="form-control" type="file" />
+                <span asp-validation-for="CoverPhoto" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-4">
+                <label asp-for="ArticleForPage.CreateDate" class="control-label"></label>
+                <input asp-for="ArticleForPage.CreateDate" type="date" class="form-control" />
+                <span asp-validation-for="ArticleForPage.CreateDate" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-4">
+                <label asp-for="ArticleForPage.Tags" class="control-label"></label>
+                <select asp-for="ArticleForPage.TagList" asp-items="Model.TagSelectItems" class="form-control" multiple="multiple"></select>
+            </div>
+            <div class="form-group col-md-4">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("Shared/Plugins/_ValidationScriptsPartial");
+        await Html.RenderPartialAsync("Shared/Plugins/_Select2Partial");
+        await Html.RenderPartialAsync("Shared/Plugins/_CKEditorPartial");
+    }
+
+    <script>
+        $('#ArticleForPage_TagList').select2();
+
+        ClassicEditor
+            .create(document.querySelector('#ArticleForPage_Body'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+}
