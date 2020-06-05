@@ -25,6 +25,12 @@ namespace RazorPageBlog.Pages.Admin
 
         public List<SelectListItem> TagSelectItems { get; set; }
 
+        [BindProperty]
+        public DateTime CreateDate { get; set; }
+
+        [BindProperty]
+        public DateTime CreateTime { get; set; }
+
         public EditModel(RazorPageBlogDbContext context)
         {
             _context = context;
@@ -53,6 +59,9 @@ namespace RazorPageBlog.Pages.Admin
                 CreateDate = article.CreateDate,
                 TagList = article.Tags.Split(',').ToList()
             };
+
+            CreateDate = article.CreateDate;
+            CreateTime = article.CreateDate;
 
             // 下拉清單先選好之前有的Tag
             TagSelectItems = _context.TagCloud.ToList().Select(s => new SelectListItem()
@@ -112,7 +121,7 @@ namespace RazorPageBlog.Pages.Admin
                 article.CoverPhoto = path;
             }
 
-            article.CreateDate = ArticleForPage.CreateDate;
+            article.CreateDate = CreateDate.Date + CreateTime.TimeOfDay;
             return article;
         }
 

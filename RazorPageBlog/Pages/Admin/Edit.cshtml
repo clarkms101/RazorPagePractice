@@ -35,9 +35,14 @@
                 <span asp-validation-for="CoverPhoto" class="text-danger"></span>
             </div>
             <div class="form-group col-md-4">
-                <label asp-for="ArticleForPage.CreateDate" class="control-label"></label>
-                <input asp-for="ArticleForPage.CreateDate" type="date" class="form-control" />
-                <span asp-validation-for="ArticleForPage.CreateDate" class="text-danger"></span>
+                <label asp-for="CreateDate" class="control-label"></label>
+                <input asp-for="CreateDate" type="text" class="form-control" asp-format="{0:yyyy-MM-dd}">
+                <span asp-validation-for="CreateDate" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-4">
+                <label asp-for="CreateTime" class="control-label"></label>
+                <input asp-for="CreateTime" type="text" class="form-control" asp-format="{0:HH:mm}">
+                <span asp-validation-for="CreateTime" class="text-danger"></span>
             </div>
             <div class="form-group col-md-4">
                 <label asp-for="ArticleForPage.Tags" class="control-label"></label>
@@ -59,10 +64,17 @@
         await Html.RenderPartialAsync("Shared/Plugins/_ValidationScriptsPartial");
         await Html.RenderPartialAsync("Shared/Plugins/_Select2Partial");
         await Html.RenderPartialAsync("Shared/Plugins/_CKEditorPartial");
+        await Html.RenderPartialAsync("Shared/Plugins/_PickaDatePartial");
     }
 
     <script>
         $('#ArticleForPage_TagList').select2();
+        $('#CreateDate').pickadate({
+            format: 'yyyy-mm-dd'
+        });
+        $('#CreateTime').pickatime({
+            format: 'HH:i'
+        });
 
         ClassicEditor
             .create(document.querySelector('#ArticleForPage_Body'))

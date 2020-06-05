@@ -32,6 +32,12 @@ namespace RazorPageBlog.Pages.Admin
 
         public List<SelectListItem> TagSelectItems { get; set; }
 
+        [BindProperty]
+        public DateTime CreateDate { get; set; }
+
+        [BindProperty]
+        public DateTime CreateTime { get; set; }
+
         public async Task<IActionResult> OnGetAsync()
         {
             TagSelectItems = await _context.TagCloud.Select(s => new SelectListItem()
@@ -39,6 +45,9 @@ namespace RazorPageBlog.Pages.Admin
                 Value = s.Name,
                 Text = s.Name
             }).ToListAsync();
+
+            CreateDate = DateTime.Now;
+            CreateTime = DateTime.Now;
 
             return Page();
         }
@@ -67,7 +76,7 @@ namespace RazorPageBlog.Pages.Admin
                 Tags = string.Join(",", ArticleForPage.TagList),
                 Title = ArticleForPage.Title,
                 CoverPhoto = path,
-                CreateDate = ArticleForPage.CreateDate
+                CreateDate = CreateDate.Date + CreateTime.TimeOfDay
             };
             
             await _context.Articles.AddAsync(article);
